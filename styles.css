@@ -556,109 +556,63 @@ body:has(a:hover) .cursor, body:has(button:hover) .cursor {
   padding-top: 60px;
 }
 
+/* Modern Profile Ring - No Rotation */
 .profile-ring {
-  width: 280px; height: 280px;
+  width: 320px;
+  height: 320px;
   border-radius: 50%;
-  background: conic-gradient(from 0deg, var(--accent), var(--accent-purple), var(--accent-blue), var(--accent), var(--accent-purple));
-  padding: 3px;
-  box-shadow: 0 0 60px rgba(99,102,241,0.25);
+  background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(168,85,247,0.1));
+  padding: 2px;
+  box-shadow: 
+    0 0 60px rgba(99,102,241,0.4),
+    0 0 120px rgba(99,102,241,0.2),
+    inset 0 0 60px rgba(99,102,241,0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(99,102,241,0.3);
+  position: relative;
 }
 
-@keyframes ring-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
+/* Remove old ring-spin animation - no longer needed */
 
 .profile-ring-inner {
-  width: 100%; height: 100%;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
-  background: var(--bg-2);
-  padding: 6px;
+  background: linear-gradient(145deg, var(--bg-2), var(--bg-3));
+  padding: 8px;
   overflow: hidden;
+  position: relative;
+}
+
+.profile-ring-inner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 30%, rgba(99,102,241,0.15), transparent 60%);
+  border-radius: 50%;
+  pointer-events: none;
 }
 
 .profile-img {
-  width: 100%; height: 100%;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   border-radius: 50%;
+  filter: brightness(1.05) contrast(1.1);
+  transition: filter 0.3s ease;
 }
 
+.hero-profile:hover .profile-img {
+  filter: brightness(1.1) contrast(1.15);
+}
+
+/* Hide Profile Stats Boxes */
 .profile-stat {
-  position: absolute;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 10px 14px;
-  text-align: center;
-  box-shadow: var(--shadow);
-  animation: float 4s ease-in-out infinite;
+  display: none;
 }
 
-.ps-1 { top: 80px; left: -30px; animation-delay: 0s; }
-.ps-2 { top: 50%; right: -30px; transform: translateY(-50%); animation-delay: 1.3s; }
-.ps-3 { bottom: 20px; left: 0; animation-delay: 2.6s; }
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
-.ps-2 {
-  animation: float-mid 4s ease-in-out infinite 1.3s;
-}
-
-@keyframes float-mid {
-  0%, 100% { transform: translateY(-50%) translateY(0); }
-  50% { transform: translateY(-50%) translateY(-8px); }
-}
-
-.ps-num {
-  display: block;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 1.2rem;
-  color: var(--accent);
-  line-height: 1;
-}
-
-.ps-lbl {
-  display: block;
-  font-size: 0.7rem;
-  color: var(--text-muted);
-  margin-top: 3px;
-  white-space: nowrap;
-}
-
-/* Hero Scroll */
-.hero-scroll {
-  position: absolute;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  z-index: 1;
-  animation: hero-scroll-bounce 2s ease-in-out infinite;
-}
-
-@keyframes hero-scroll-bounce {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50% { transform: translateX(-50%) translateY(8px); }
-}
-
-.scroll-line {
-  width: 1px; height: 48px;
-  background: linear-gradient(to bottom, var(--accent), transparent);
-}
-
-.scroll-label {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  color: var(--text-faint);
-  text-transform: uppercase;
-  letter-spacing: 2px;
+.ps-1, .ps-2, .ps-3 {
+  display: none;
 }
 
 /* =====================================================
