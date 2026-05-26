@@ -546,120 +546,91 @@ body:has(a:hover) .cursor, body:has(button:hover) .cursor {
   transform: translateY(-3px);
 }
 
-/* Hero Profile */
+/* Hero Profile - SIMPLIFIED */
 .hero-profile {
   position: relative;
   z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 60px;
+  padding-top: 20px;
 }
 
+/* Remove outer glow */
+.hero-profile::before {
+  display: none;
+}
+
+/* Clean Profile Container - No Ring */
 .profile-ring {
-  width: 280px; height: 280px;
-  border-radius: 50%;
-  background: conic-gradient(from 0deg, var(--accent), var(--accent-purple), var(--accent-blue), var(--accent), var(--accent-purple));
-  padding: 3px;
-  box-shadow: 0 0 60px rgba(99,102,241,0.25);
+  width: 360px;
+  height: 500px;
+  border-radius: 24px;
+  background: transparent;
+  padding: 0;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.5s ease;
+  overflow: visible;
 }
 
-@keyframes ring-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+/* Remove gradient border pseudo-element */
+.profile-ring::before {
+  display: none;
+}
+
+/* Remove purple glow pseudo-element */
+.profile-ring::after {
+  display: none;
 }
 
 .profile-ring-inner {
-  width: 100%; height: 100%;
-  border-radius: 50%;
-  background: var(--bg-2);
-  padding: 6px;
+  width: 100%;
+  height: 100%;
+  border-radius: 24px;
+  background: transparent;
+  padding: 0;
   overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+/* Remove inner light effects */
+.profile-ring-inner::before {
+  display: none;
+}
+
+.profile-ring-inner::after {
+  display: none;
 }
 
 .profile-img {
-  width: 100%; height: 100%;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  border-radius: 50%;
-}
-
-.profile-stat {
-  position: absolute;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 10px 14px;
-  text-align: center;
-  box-shadow: var(--shadow);
-  animation: float 4s ease-in-out infinite;
-}
-
-.ps-1 { top: 80px; left: -30px; animation-delay: 0s; }
-.ps-2 { top: 50%; right: -30px; transform: translateY(-50%); animation-delay: 1.3s; }
-.ps-3 { bottom: 20px; left: 0; animation-delay: 2.6s; }
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
-.ps-2 {
-  animation: float-mid 4s ease-in-out infinite 1.3s;
-}
-
-@keyframes float-mid {
-  0%, 100% { transform: translateY(-50%) translateY(0); }
-  50% { transform: translateY(-50%) translateY(-8px); }
-}
-
-.ps-num {
+  object-position: center 10%;
+  border-radius: 24px;
+  filter: brightness(1) contrast(1.1) saturate(0);
+  transition: filter 0.5s ease, transform 0.6s cubic-bezier(0.34,1.56,0.64,1);
   display: block;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 1.2rem;
-  color: var(--accent);
-  line-height: 1;
 }
 
-.ps-lbl {
-  display: block;
-  font-size: 0.7rem;
-  color: var(--text-muted);
-  margin-top: 3px;
-  white-space: nowrap;
+.hero-profile:hover .profile-img {
+  filter: brightness(1.05) contrast(1.15) saturate(0);
+  transform: scale(1.02);
 }
 
-/* Hero Scroll */
-.hero-scroll {
-  position: absolute;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  z-index: 1;
-  animation: hero-scroll-bounce 2s ease-in-out infinite;
+.hero-profile:hover .profile-ring {
+  transform: translateY(-8px);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.6);
 }
 
-@keyframes hero-scroll-bounce {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50% { transform: translateX(-50%) translateY(8px); }
-}
-
-.scroll-line {
-  width: 1px; height: 48px;
-  background: linear-gradient(to bottom, var(--accent), transparent);
-}
-
-.scroll-label {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  color: var(--text-faint);
-  text-transform: uppercase;
-  letter-spacing: 2px;
-}
+/* Hide stat boxes and badges */
+.profile-stat { display: none; }
+.ps-1, .ps-2, .ps-3 { display: none; }
+.profile-badge { display: none; }
+.profile-chip { display: none; }
 
 /* =====================================================
    ABOUT SECTION
