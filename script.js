@@ -365,6 +365,89 @@
     }
   }
 
+  /* === SCROLL PROGRESS BAR === */
+  const scrollProgress = document.getElementById('scrollProgress');
+  if (scrollProgress) {
+    const updateProgress = () => {
+      const doc = document.documentElement;
+      const max = doc.scrollHeight - doc.clientHeight;
+      const pct = max > 0 ? doc.scrollTop / max : 0;
+      scrollProgress.style.transform = `scaleX(${pct})`;
+    };
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    window.addEventListener('resize', updateProgress, { passive: true });
+    updateProgress();
+  }
+
+  /* === CARD SPOTLIGHT + 3D TILT (cursor-driven) === */
+  if (finePointer && !reduceMotion) {
+    const tiltCards = document.querySelectorAll('.project-card, .cert-card');
+    tiltCards.forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const px = (x / rect.width) * 100;
+        const py = (y / rect.height) * 100;
+        const rx = (y / rect.height - 0.5) * -7;
+        const ry = (x / rect.width - 0.5) * 7;
+        card.style.setProperty('--px', px + '%');
+        card.style.setProperty('--py', py + '%');
+        card.style.transform = `translateY(-6px) perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+      });
+    });
+
+    /* === BUTTON GLOSS FOLLOW (--shine-x) === */
+    document.querySelectorAll('.btn-primary, .btn-submit, .nav-contact-btn').forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const sx = ((e.clientX - rect.left) / rect.width) * 100;
+        btn.style.setProperty('--shine-x', sx + '%');
+      });
+    });
+  }
+
+  /* === SECTION HEADING WORD REVEAL === */
+  document.querySelectorAll('[data-split]').forEach(el => {
+    const words = el.textContent.trim().split(/\s+/);
+    el.innerHTML = words
+      .map(w => `<span class="split-line"><span class="split-word">${w}</span></span>`)
+      .join(' ');
+  });
+  const splitObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const words = entry.target.querySelectorAll('.split-word');
+        words.forEach((w, i) => {
+          setTimeout(() => w.classList.add('in'), i * 90);
+        });
+        splitObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  document.querySelectorAll('[data-split]').forEach(el => splitObserver.observe(el));
+
+  /* === SUBTLE PARALLAX ON GLOBAL BLOBS === */
+  if (!reduceMotion) {
+    const blobs = document.querySelectorAll('.fx-blob');
+    let blobTicking = false;
+    window.addEventListener('scroll', () => {
+      if (blobTicking) return;
+      blobTicking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        blobs.forEach((b, i) => {
+          const speed = (i + 1) * 0.04;
+          b.style.translate = `0 ${y * speed}px`;
+        });
+        blobTicking = false;
+      });
+    }, { passive: true });
+  }
+
   console.log('%cThoraj Mamidala Portfolio', 'color: #ffffff; font-size: 1.2rem; font-weight: bold;');
   console.log('%cData Engineer · Builder · Problem Solver', 'color: #808080;');
 })();
