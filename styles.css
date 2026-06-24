@@ -1109,3 +1109,307 @@
     html { scroll-behavior: auto !important; }
   }
 }
+
+/* =====================================================
+   ╔═══════════════════════════════════════════════╗
+   ║   ADVANCED GRAPHICS LAYER — v2 (unlayered)      ║
+   ║   Trionn-inspired · cinematic motion · graphics ║
+   ╚═══════════════════════════════════════════════╝
+   These rules are intentionally UNLAYERED so they take
+   precedence over the cascade layers defined above.
+   ===================================================== */
+
+/* ---- Registered animatable custom props ---- */
+@property --spin {
+  syntax: '<angle>'; inherits: false; initial-value: 0deg;
+}
+@property --shine-x {
+  syntax: '<percentage>'; inherits: false; initial-value: 50%;
+}
+
+/* ---------------------------------------------------
+   1 · GLOBAL CINEMATIC BACKGROUND
+   Living mesh-gradient blobs + grain, behind everything
+   --------------------------------------------------- */
+.fx-bg {
+  position: fixed; inset: 0; z-index: -2;
+  pointer-events: none; overflow: hidden;
+  background: var(--bg);
+}
+.fx-blob {
+  position: absolute; border-radius: 50%;
+  filter: blur(90px); opacity: 0.55;
+  mix-blend-mode: screen; will-change: transform;
+}
+.fx-blob.b1 {
+  width: 46vw; height: 46vw; top: -8%; left: -6%;
+  background: radial-gradient(circle at 40% 40%, #5b8cff, transparent 65%);
+  animation: blobDrift1 26s ease-in-out infinite;
+}
+.fx-blob.b2 {
+  width: 40vw; height: 40vw; bottom: -10%; right: -6%;
+  background: radial-gradient(circle at 60% 60%, #8b5cf6, transparent 65%);
+  animation: blobDrift2 32s ease-in-out infinite;
+}
+.fx-blob.b3 {
+  width: 32vw; height: 32vw; top: 38%; left: 52%;
+  background: radial-gradient(circle at 50% 50%, #22d3ee, transparent 62%);
+  opacity: 0.4;
+  animation: blobDrift3 38s ease-in-out infinite;
+}
+.fx-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 90% 70% at 50% 40%, #000 30%, transparent 90%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 40%, #000 30%, transparent 90%);
+}
+/* Animated film grain (SVG noise) */
+.fx-grain {
+  position: fixed; inset: -50%; z-index: 9996;
+  pointer-events: none; opacity: 0.06;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grainShift 0.6s steps(4) infinite;
+}
+
+@keyframes blobDrift1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(8vw, 6vh) scale(1.15); }
+  66% { transform: translate(-4vw, 10vh) scale(0.92); }
+}
+@keyframes blobDrift2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-7vw, -5vh) scale(1.1); }
+  66% { transform: translate(5vw, -9vh) scale(0.9); }
+}
+@keyframes blobDrift3 {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-58%, -42%) scale(1.2); }
+}
+@keyframes grainShift {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-3%, 2%); }
+  50% { transform: translate(2%, -3%); }
+  75% { transform: translate(-2%, -2%); }
+  100% { transform: translate(3%, 3%); }
+}
+
+/* ---------------------------------------------------
+   2 · SCROLL PROGRESS BAR
+   --------------------------------------------------- */
+.scroll-progress {
+  position: fixed; top: 0; left: 0; height: 3px; width: 100%;
+  transform: scaleX(0); transform-origin: 0 50%;
+  background: linear-gradient(90deg, #22d3ee, #5b8cff 45%, #8b5cf6);
+  box-shadow: 0 0 16px var(--brand-glow);
+  z-index: 10000;
+  will-change: transform;
+}
+
+/* ---------------------------------------------------
+   3 · MARQUEE STRIPS  (trionn signature)
+   --------------------------------------------------- */
+.marquee {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(28px, 5vw, 56px) 0;
+  border-block: 1px solid var(--border);
+  background: linear-gradient(180deg, var(--bg-2), var(--bg));
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.marquee-track {
+  display: flex; width: max-content;
+  gap: 2.5rem;
+  animation: marqueeMove 32s linear infinite;
+  will-change: transform;
+}
+.marquee:hover .marquee-track { animation-play-state: paused; }
+.marquee.reverse .marquee-track { animation-direction: reverse; }
+.marquee-item {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 5vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -1px;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--border-hover);
+  display: inline-flex; align-items: center; gap: 2.5rem;
+  transition: color 0.4s ease, -webkit-text-stroke-color 0.4s ease;
+}
+.marquee-item:hover {
+  color: transparent;
+  background: var(--grad-gloss);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-stroke-color: transparent;
+}
+.marquee-item i {
+  font-size: 0.5em;
+  color: var(--brand);
+  -webkit-text-stroke: 0;
+}
+
+@keyframes marqueeMove {
+  to { transform: translateX(-50%); }
+}
+
+/* ---------------------------------------------------
+   4 · ADVANCED TEXT REVEAL  (clip + per-word rise)
+   --------------------------------------------------- */
+.split-line { display: block; overflow: hidden; }
+.split-word {
+  display: inline-block;
+  transform: translateY(110%) rotate(4deg);
+  opacity: 0;
+  transition: transform 0.9s var(--ease-out), opacity 0.9s var(--ease-out);
+}
+.split-word.in { transform: translateY(0) rotate(0); opacity: 1; }
+
+/* Heading underline sweep on reveal */
+.section-heading { position: relative; overflow: visible; }
+.section-heading::after {
+  content: ''; position: absolute; left: 0; bottom: -10px;
+  width: 0; height: 3px; border-radius: 3px;
+  background: var(--grad-brand);
+  box-shadow: 0 0 14px var(--brand-glow);
+  transition: width 1s var(--ease-out) 0.3s;
+}
+.section-heading.visible::after { width: clamp(60px, 12vw, 130px); }
+
+/* ---------------------------------------------------
+   5 · CARD SPOTLIGHT + 3D TILT (cursor-driven)
+   Applies to all major card surfaces
+   --------------------------------------------------- */
+.project-card, .stat-card, .cert-card, .edu-card, .tl-body, .highlight-item, .soft-item {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out), border-color 0.4s ease;
+}
+/* Radial spotlight that follows cursor (driven by JS --px/--py) */
+.project-card::before, .cert-card::before {
+  content: ''; position: absolute; inset: 0;
+  border-radius: inherit; pointer-events: none;
+  background: radial-gradient(320px circle at var(--px, 50%) var(--py, 0%),
+    color-mix(in srgb, var(--brand) 16%, transparent), transparent 60%);
+  opacity: 0; transition: opacity 0.4s ease; z-index: 0;
+}
+.project-card:hover::before, .cert-card:hover::before { opacity: 1; }
+.project-card > *, .cert-card > * { position: relative; z-index: 1; }
+
+/* Animated conic gradient border on hover (featured cards always on) */
+.project-card, .cert-card {
+  background-clip: padding-box;
+}
+.cert-featured::after, .project-card::after {
+  content: ''; position: absolute; inset: 0;
+  border-radius: inherit; padding: 1px; z-index: 0;
+  pointer-events: none; opacity: 0;
+  background: conic-gradient(from var(--spin),
+    transparent 0%, var(--brand) 16%, var(--brand-2) 30%, transparent 50%, transparent 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  transition: opacity 0.4s ease;
+}
+.cert-featured::after { opacity: 1; animation: spinBorder 5s linear infinite; }
+.project-card:hover::after { opacity: 1; animation: spinBorder 4s linear infinite; }
+@keyframes spinBorder { to { --spin: 360deg; } }
+
+/* ---------------------------------------------------
+   6 · MAGNETIC / BUTTON GLOSS UPGRADE
+   --------------------------------------------------- */
+.btn-primary, .btn-secondary, .nav-contact-btn, .btn-submit {
+  position: relative;
+  transition: transform 0.25s var(--ease-out), box-shadow 0.3s ease, filter 0.3s ease;
+}
+.btn-primary::after, .nav-contact-btn::after, .btn-submit::after {
+  content: ''; position: absolute; inset: 0; border-radius: inherit;
+  background: radial-gradient(120px circle at var(--shine-x) 50%,
+    rgba(255,255,255,0.35), transparent 60%);
+  opacity: 0; transition: opacity 0.3s ease; pointer-events: none;
+}
+.btn-primary:hover::after, .nav-contact-btn:hover::after, .btn-submit:hover::after { opacity: 1; }
+
+/* ---------------------------------------------------
+   7 · HERO NAME — letter cascade + glow pulse
+   --------------------------------------------------- */
+.hero-name .name-line { will-change: transform; }
+.hero-profile .profile-ring { will-change: transform; }
+.hero-profile .profile-img { transition: transform 0.6s var(--ease-out), filter 0.6s ease; }
+
+/* Floating chips re-enabled around the hero profile */
+.hero-profile { position: relative; }
+.fx-orbit {
+  position: absolute; inset: -6%;
+  pointer-events: none; z-index: 2;
+}
+.fx-chip {
+  position: absolute;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 9px 15px; border-radius: 100px;
+  font-family: var(--font-mono); font-size: 0.74rem; font-weight: 600;
+  color: var(--text);
+  background: var(--glass);
+  border: 1px solid var(--border-hover);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  box-shadow: var(--shadow);
+  white-space: nowrap;
+  animation: floatChip 6s ease-in-out infinite;
+}
+.fx-chip i { color: var(--brand); }
+.fx-chip.c1 { top: 6%; left: -10%; animation-delay: 0s; }
+.fx-chip.c2 { top: 44%; right: -16%; animation-delay: 1.4s; }
+.fx-chip.c3 { bottom: 6%; left: -6%; animation-delay: 2.8s; }
+@keyframes floatChip {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+
+/* ---------------------------------------------------
+   8 · SECTION ENTRANCE — soft scale/clip
+   --------------------------------------------------- */
+.section-label { position: relative; }
+.reveal-scale {
+  opacity: 0; transform: scale(0.94) translateY(28px);
+  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+}
+.reveal-scale.visible { opacity: 1; transform: none; }
+
+/* Stagger helper for grids */
+.stagger > * { transition-delay: calc(var(--i, 0) * 70ms); }
+
+/* ---------------------------------------------------
+   9 · ENHANCED HOVER MICRO-INTERACTIONS
+   --------------------------------------------------- */
+.nav-link { transition: color var(--transition), background var(--transition), transform 0.2s ease; }
+.nav-link:hover { transform: translateY(-2px); }
+
+.tech-tags span, .tl-tags span, .edu-courses span {
+  transition: transform 0.25s var(--transition-spring), background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+.tech-tags span:hover, .tl-tags span:hover, .edu-courses span:hover { transform: translateY(-3px) scale(1.05); }
+
+.pc-icon, .cert-icon-wrap, .edu-icon, .ci-icon {
+  transition: transform 0.4s var(--transition-spring), box-shadow 0.4s ease;
+}
+.project-card:hover .pc-icon { transform: translateY(-3px) rotate(-6deg) scale(1.12); }
+.cert-card:hover .cert-icon-wrap { transform: translateY(-3px) rotate(6deg) scale(1.1); }
+.ci-item:hover .ci-icon { transform: scale(1.12) rotate(-6deg); }
+
+/* Glowing skill fill */
+.skill-fill { position: relative; box-shadow: 0 0 12px var(--brand-glow); }
+
+/* ---------------------------------------------------
+   10 · MOBILE / MOTION SAFETY
+   --------------------------------------------------- */
+@media (max-width: 768px), (pointer: coarse) {
+  .fx-orbit { display: none; }
+  .fx-blob { filter: blur(60px); opacity: 0.4; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fx-blob, .fx-grain, .marquee-track, .fx-chip,
+  .cert-featured::after, .project-card:hover::after { animation: none !important; }
+  .split-word { transform: none; opacity: 1; }
+}
