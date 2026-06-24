@@ -30,10 +30,24 @@
 </head>
 
 <body>
+  <!-- Cinematic global background -->
+  <div class="fx-bg" aria-hidden="true">
+    <span class="fx-blob b1"></span>
+    <span class="fx-blob b2"></span>
+    <span class="fx-blob b3"></span>
+    <div class="fx-grid"></div>
+  </div>
+  <div class="fx-grain" aria-hidden="true"></div>
+
+  <!-- Scroll progress -->
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
   <!-- Preloader -->
   <div class="preloader" id="preloader">
     <div class="preloader-inner">
-      <div class="preloader-initials">TM</div>
+      <div class="preloader-avatar">
+        <img src="./avater_logo.png" alt="Thoraj Mamidala" />
+      </div>
       <div class="preloader-bar"><div class="preloader-fill"></div></div>
     </div>
   </div>
@@ -46,7 +60,9 @@
   <nav class="navbar" id="navbar">
     <div class="nav-inner">
       <a href="#home" class="nav-brand">
-        <span class="brand-initials">TM</span>
+        <span class="brand-avatar">
+          <img src="./avater_logo.png" alt="Thoraj Mamidala" />
+        </span>
         <span class="brand-name">Thoraj Mamidala</span>
       </a>
 
@@ -139,19 +155,17 @@
     </div>
 
 <div class="hero-profile reveal-right">
-  <!-- <div class="profile-chip">GPA 9.03 ✦</div> -->
+  <div class="profile-backdrop"></div>
   <div class="profile-ring">
     <div class="profile-ring-inner">
       <img src="./th.png" alt="Thoraj Mamidala" class="profile-img" />
     </div>
   </div>
-  <!-- <div class="profile-badge">
-    <span class="profile-badge-dot"></span>
-    Open to Work
-  </div> -->
-  <!-- <div class="profile-stat ps-1"><span class="ps-num">9.03</span><span class="ps-lbl">GPA</span></div>
-  <div class="profile-stat ps-2"><span class="ps-num">15+</span><span class="ps-lbl">Projects</span></div>
-  <div class="profile-stat ps-3"><span class="ps-num">1st</span><span class="ps-lbl">Hackathon</span></div> -->
+  <div class="fx-orbit" aria-hidden="true">
+    <span class="fx-chip c1"><i class="fas fa-database"></i> Data Engineer</span>
+    <span class="fx-chip c2"><i class="fas fa-brain"></i> AI / RAG</span>
+    <span class="fx-chip c3"><i class="fas fa-bolt"></i> ETL Pipelines</span>
+  </div>
 </div>
 
     <a href="#about" class="hero-scroll" aria-label="Scroll down">
@@ -159,6 +173,14 @@
       <span class="scroll-label">Scroll</span>
     </a>
   </section>
+
+  <!-- Marquee Strip -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span class="marquee-item">Data Engineering <i class="fas fa-asterisk"></i> AI Systems <i class="fas fa-asterisk"></i> ETL Pipelines <i class="fas fa-asterisk"></i> Cloud <i class="fas fa-asterisk"></i> RAG / LLMs <i class="fas fa-asterisk"></i></span>
+      <span class="marquee-item">Data Engineering <i class="fas fa-asterisk"></i> AI Systems <i class="fas fa-asterisk"></i> ETL Pipelines <i class="fas fa-asterisk"></i> Cloud <i class="fas fa-asterisk"></i> RAG / LLMs <i class="fas fa-asterisk"></i></span>
+    </div>
+  </div>
 
   <!-- About Section -->
   <section class="section about-section" id="about">
@@ -792,9 +814,17 @@
     </div>
   </section>
 
+  <!-- Marquee Strip (reverse) -->
+  <div class="marquee reverse" aria-hidden="true">
+    <div class="marquee-track">
+      <span class="marquee-item">Let's Build <i class="fas fa-circle"></i> Let's Collaborate <i class="fas fa-circle"></i> Let's Talk <i class="fas fa-circle"></i> Let's Create <i class="fas fa-circle"></i></span>
+      <span class="marquee-item">Let's Build <i class="fas fa-circle"></i> Let's Collaborate <i class="fas fa-circle"></i> Let's Talk <i class="fas fa-circle"></i> Let's Create <i class="fas fa-circle"></i></span>
+    </div>
+  </div>
+
   <!-- Contact Section -->
   <section class="section contact-section" id="contact">
-    <div class="container">
+      <div class="container">
       <div class="section-label reveal-up">07 — Contact</div>
       <h2 class="section-heading reveal-up">Let's Connect</h2>
       <p class="section-subheading reveal-up">
@@ -884,7 +914,10 @@
     <div class="container">
       <div class="footer-inner">
         <div class="footer-left">
-          <span class="footer-logo">Thoraj Mamidala</span>
+          <span class="footer-brand">
+            <span class="footer-avatar"><img src="./avater_logo.png" alt="Thoraj Mamidala" /></span>
+            <span class="footer-logo">Thoraj Mamidala</span>
+          </span>
           <p class="footer-tagline">Data Engineer · Builder · Problem Solver</p>
         </div>
         <div class="footer-links-col">
