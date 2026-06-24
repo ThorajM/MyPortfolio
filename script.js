@@ -13,30 +13,80 @@
     }, 1800);
   });
 
-  /* === CUSTOM CURSOR === */
-  const cursor = document.getElementById('cursor');
-  const cursorFollower = document.getElementById('cursorFollower');
-  let mouseX = 0, mouseY = 0, followerX = 0, followerY = 0;
+  /* === MOTION PREFERENCE === */
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const finePointer = window.matchMedia('(pointer: fine)').matches;
 
-  document.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    if (cursor) {
-      cursor.style.left = mouseX + 'px';
-      cursor.style.top = mouseY + 'px';
-    }
-  });
+  /* === HERO SPOTLIGHT (mouse-follow glow) === */
+  const heroBg = document.querySelector('.hero-bg');
+  const heroSection = document.getElementById('home');
 
-  function animateCursor() {
-    followerX += (mouseX - followerX) * 0.08;
-    followerY += (mouseY - followerY) * 0.08;
-    if (cursorFollower) {
-      cursorFollower.style.left = followerX + 'px';
-      cursorFollower.style.top = followerY + 'px';
-    }
-    requestAnimationFrame(animateCursor);
+  if (heroBg && heroSection && finePointer && !reduceMotion) {
+    let rafId = null;
+    heroSection.addEventListener('mousemove', (e) => {
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        const mx = (e.clientX / window.innerWidth) * 100;
+        const my = (e.clientY / window.innerHeight) * 100;
+        heroBg.style.setProperty('--mx', mx + '%');
+        heroBg.style.setProperty('--my', my + '%');
+        rafId = null;
+      });
+    });
   }
-  animateCursor();
+
+  /* === CUSTOM CURSOR (premium dot + smooth ring) === */
+  const cursorDot = document.getElementById('cursor');
+  const cursorRing = document.getElementById('cursorFollower');
+
+  if (cursorDot && cursorRing && finePointer && !reduceMotion) {
+    document.documentElement.style.cursor = 'none';
+
+    let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+    let ringX = mouseX, ringY = mouseY;
+    let visible = false;
+
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX; mouseY = e.clientY;
+      cursorDot.style.left = mouseX + 'px';
+      cursorDot.style.top = mouseY + 'px';
+      if (!visible) {
+        visible = true;
+        cursorDot.classList.add('is-active');
+        cursorRing.classList.add('is-active');
+      }
+    });
+
+    document.addEventListener('mouseleave', () => {
+      visible = false;
+      cursorDot.classList.remove('is-active');
+      cursorRing.classList.remove('is-active');
+    });
+
+    // Smooth ring follow
+    (function animateRing() {
+      ringX += (mouseX - ringX) * 0.16;
+      ringY += (mouseY - ringY) * 0.16;
+      cursorRing.style.left = ringX + 'px';
+      cursorRing.style.top = ringY + 'px';
+      requestAnimationFrame(animateRing);
+    })();
+
+    // Grow over interactive elements
+    const hoverSel = 'a, button, .btn-primary, .btn-secondary, .nav-link, .nav-contact-btn, input, textarea, .project-card, .social-link, .filter-btn';
+    document.addEventListener('mouseover', (e) => {
+      if (e.target.closest(hoverSel)) {
+        cursorDot.classList.add('cursor-hover');
+        cursorRing.classList.add('cursor-hover');
+      }
+    });
+    document.addEventListener('mouseout', (e) => {
+      if (e.target.closest(hoverSel)) {
+        cursorDot.classList.remove('cursor-hover');
+        cursorRing.classList.remove('cursor-hover');
+      }
+    });
+  }
 
   /* === NAVBAR SCROLL EFFECT === */
   const navbar = document.getElementById('navbar');
@@ -275,33 +325,46 @@
     setTimeout(() => { el.classList.add('visible'); }, 1900 + i * 120);
   });
 
-  /* === HOVER EFFECT ON PROJECT CARDS === */
+  /* === HOVER LIFT ON PROJECT CARDS === */
   document.querySelectorAll('.project-card').forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width - 0.5) * 8;
-      const y = ((e.clientY - rect.top) / rect.height - 0.5) * -8;
-      card.style.transform = `translateY(-6px) rotateX(${y}deg) rotateY(${x}deg)`;
-      card.style.transformOrigin = 'center center';
+    card.addEventListener('mouseenter', () => {
+      card.style.transform = 'translateY(-6px)';
     });
-
     card.addEventListener('mouseleave', () => {
       card.style.transform = '';
     });
   });
 
-  /* === CURSOR SCALE ON INTERACTIVE ELEMENTS === */
-  document.querySelectorAll('a, button, .project-card, .cert-card, .stat-card').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      if (cursor) cursor.style.transform = 'translate(-50%, -50%) scale(2.5)';
-      if (cursorFollower) { cursorFollower.style.opacity = '0.1'; cursorFollower.style.transform = 'translate(-50%, -50%) scale(1.5)'; }
+  /* === MAGNETIC BUTTONS === */
+  if (finePointer && !reduceMotion) {
+    document.querySelectorAll('.btn-primary, .btn-secondary, .nav-contact-btn, .back-to-top').forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        btn.style.transform = `translate(${x * 0.25}px, ${y * 0.35}px)`;
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = '';
+      });
     });
-    el.addEventListener('mouseleave', () => {
-      if (cursor) cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-      if (cursorFollower) { cursorFollower.style.opacity = '0.4'; cursorFollower.style.transform = 'translate(-50%, -50%) scale(1)'; }
-    });
-  });
 
-  console.log('%c🚀 Thoraj Mamidala Portfolio', 'color: #6366f1; font-size: 1.2rem; font-weight: bold;');
-  console.log('%cData Engineer · Builder · Problem Solver', 'color: #94a3b8;');
+    /* === SUBTLE PROFILE TILT === */
+    const profile = document.querySelector('.hero-profile');
+    const ring = document.querySelector('.profile-ring');
+    if (profile && ring) {
+      profile.addEventListener('mousemove', (e) => {
+        const rect = profile.getBoundingClientRect();
+        const px = (e.clientX - rect.left) / rect.width - 0.5;
+        const py = (e.clientY - rect.top) / rect.height - 0.5;
+        ring.style.transform = `translateY(-6px) rotateX(${py * -8}deg) rotateY(${px * 10}deg)`;
+      });
+      profile.addEventListener('mouseleave', () => {
+        ring.style.transform = '';
+      });
+    }
+  }
+
+  console.log('%cThoraj Mamidala Portfolio', 'color: #ffffff; font-size: 1.2rem; font-weight: bold;');
+  console.log('%cData Engineer · Builder · Problem Solver', 'color: #808080;');
 })();
