@@ -45,6 +45,42 @@
     let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
     let ringX = mouseX, ringY = mouseY;
     let visible = false;
+    let onInteractive = false;
+    let textMode = false;
+    const textSel = 'input, textarea, select, [contenteditable="true"], [contenteditable=""]';
+    const hoverSel = 'a, button, [role="button"], .btn-primary, .btn-secondary, .nav-link, .nav-contact-btn, .project-card, .social-link, .filter-btn, .cs-btn, .cert-link-btn';
+
+    function setNativeTextMode(enabled) {
+      if (enabled === textMode) return;
+      textMode = enabled;
+      document.body.classList.toggle('cursor-native-text', enabled);
+      document.documentElement.style.cursor = enabled ? 'text' : 'none';
+      if (enabled) {
+        onInteractive = false;
+        cursorDot.classList.remove('cursor-hover', 'cursor-press');
+        cursorRing.classList.remove('cursor-hover', 'cursor-press');
+      }
+    }
+
+    function setHover(enabled) {
+      if (enabled === onInteractive) return;
+      onInteractive = enabled;
+      cursorDot.classList.toggle('cursor-hover', enabled);
+      cursorRing.classList.toggle('cursor-hover', enabled);
+    }
+
+    // Single source of truth: resolve cursor state from the element under the pointer.
+    function resolveCursorState(el) {
+      if (!el || el.nodeType !== 1 || typeof el.closest !== 'function') {
+        setNativeTextMode(false); setHover(false); return;
+      }
+      if (el.closest(textSel) || el.isContentEditable) {
+        setNativeTextMode(true);
+        return;
+      }
+      setNativeTextMode(false);
+      setHover(!!el.closest(hoverSel));
+    }
 
     window.addEventListener('mousemove', (e) => {
       mouseX = e.clientX; mouseY = e.clientY;
@@ -55,7 +91,8 @@
         cursorDot.classList.add('is-active');
         cursorRing.classList.add('is-active');
       }
-    });
+      resolveCursorState(e.target);
+    }, { passive: true });
 
     document.addEventListener('mouseleave', () => {
       visible = false;
@@ -63,28 +100,56 @@
       cursorRing.classList.remove('is-active');
     });
 
+    document.addEventListener('mouseenter', () => {
+      if (!textMode) {
+        visible = true;
+        cursorDot.classList.add('is-active');
+        cursorRing.classList.add('is-active');
+      }
+    });
+
+    // Scrolling changes what's under the cursor WITHOUT firing mouse events,
+    // which is what made the cursor vanish near the contact form. Re-check on scroll.
+    window.addEventListener('scroll', () => {
+      if (!visible) return;
+      resolveCursorState(document.elementFromPoint(mouseX, mouseY));
+    }, { passive: true });
+
     // Smooth ring follow
     (function animateRing() {
-      ringX += (mouseX - ringX) * 0.16;
-      ringY += (mouseY - ringY) * 0.16;
+      const follow = onInteractive ? 0.34 : 0.16;
+      ringX += (mouseX - ringX) * follow;
+      ringY += (mouseY - ringY) * follow;
       cursorRing.style.left = ringX + 'px';
       cursorRing.style.top = ringY + 'px';
       requestAnimationFrame(animateRing);
     })();
 
-    // Grow over interactive elements
-    const hoverSel = 'a, button, .btn-primary, .btn-secondary, .nav-link, .nav-contact-btn, input, textarea, .project-card, .social-link, .filter-btn';
-    document.addEventListener('mouseover', (e) => {
-      if (e.target.closest(hoverSel)) {
-        cursorDot.classList.add('cursor-hover');
-        cursorRing.classList.add('cursor-hover');
+    // Keep native text mode while field is focused (keyboard/mouse)
+    document.addEventListener('focusin', (e) => {
+      if (e.target.matches(textSel)) setNativeTextMode(true);
+    });
+    document.addEventListener('focusout', (e) => {
+      if (e.target.matches(textSel)) {
+        // Re-evaluate based on where the pointer actually is.
+        resolveCursorState(document.elementFromPoint(mouseX, mouseY));
       }
     });
-    document.addEventListener('mouseout', (e) => {
-      if (e.target.closest(hoverSel)) {
-        cursorDot.classList.remove('cursor-hover');
-        cursorRing.classList.remove('cursor-hover');
-      }
+
+    // Click feedback makes button/link interactions feel intentional
+    window.addEventListener('mousedown', () => {
+      if (textMode) return;
+      cursorDot.classList.add('cursor-press');
+      cursorRing.classList.add('cursor-press');
+    });
+    window.addEventListener('mouseup', () => {
+      cursorDot.classList.remove('cursor-press');
+      cursorRing.classList.remove('cursor-press');
+    });
+    window.addEventListener('blur', () => {
+      setHover(false);
+      cursorDot.classList.remove('cursor-hover', 'cursor-press');
+      cursorRing.classList.remove('cursor-hover', 'cursor-press');
     });
   }
 
@@ -400,6 +465,24 @@
       });
     });
 
+    /* === CTA CARD: pointer spotlight + gentle 3D tilt === */
+    const ctaCard = document.querySelector('.cta-card[data-tilt]');
+    if (ctaCard) {
+      ctaCard.addEventListener('mousemove', (e) => {
+        const rect = ctaCard.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        ctaCard.style.setProperty('--mx', x + 'px');
+        ctaCard.style.setProperty('--my', y + 'px');
+        const rx = (y / rect.height - 0.5) * -4;
+        const ry = (x / rect.width - 0.5) * 4;
+        ctaCard.style.transform = `perspective(1400px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+      });
+      ctaCard.addEventListener('mouseleave', () => {
+        ctaCard.style.transform = '';
+      });
+    }
+
     /* === BUTTON GLOSS FOLLOW (--shine-x) === */
     document.querySelectorAll('.btn-primary, .btn-submit, .nav-contact-btn').forEach(btn => {
       btn.addEventListener('mousemove', (e) => {
@@ -412,9 +495,15 @@
 
   /* === SECTION HEADING WORD REVEAL === */
   document.querySelectorAll('[data-split]').forEach(el => {
+    const emphasis = (el.dataset.emphasis || '')
+      .split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
     const words = el.textContent.trim().split(/\s+/);
     el.innerHTML = words
-      .map(w => `<span class="split-line"><span class="split-word">${w}</span></span>`)
+      .map(w => {
+        const bare = w.toLowerCase().replace(/[^a-z0-9-]/g, '');
+        const kw = emphasis.includes(bare) ? ' kw' : '';
+        return `<span class="split-line"><span class="split-word${kw}">${w}</span></span>`;
+      })
       .join(' ');
   });
   const splitObserver = new IntersectionObserver((entries) => {
@@ -447,6 +536,174 @@
       });
     }, { passive: true });
   }
+
+  /* === HERO CONSTELLATION CANVAS (performant, pauses off-screen) === */
+  (function constellation() {
+    const canvas = document.getElementById('constellation');
+    if (!canvas || reduceMotion || !finePointer) return;
+
+    const ctx = canvas.getContext('2d', { alpha: true });
+    const hero = document.getElementById('home');
+    if (!ctx || !hero) return;
+
+    let w = 0, h = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let particles = [];
+    let running = false, rafId = null;
+    const mouse = { x: -9999, y: -9999 };
+    const LINK_DIST = 130;
+
+    function resize() {
+      const rect = hero.getBoundingClientRect();
+      w = canvas.clientWidth || rect.width;
+      h = canvas.clientHeight || rect.height;
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      // Density scales with area but is capped for performance
+      const count = Math.min(90, Math.round((w * h) / 16000));
+      particles = Array.from({ length: count }, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
+        r: Math.random() * 1.6 + 0.6
+      }));
+    }
+
+    function step() {
+      if (!running) return;
+      ctx.clearRect(0, 0, w, h);
+
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+
+        // Gentle cursor repulsion
+        const dx = p.x - mouse.x, dy = p.y - mouse.y;
+        const dist = Math.hypot(dx, dy);
+        if (dist < 120 && dist > 0) {
+          const force = (120 - dist) / 120 * 0.6;
+          p.x += (dx / dist) * force;
+          p.y += (dy / dist) * force;
+        }
+
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0 || p.x > w) p.vx *= -1;
+        if (p.y < 0 || p.y > h) p.vy *= -1;
+        p.x = Math.max(0, Math.min(w, p.x));
+        p.y = Math.max(0, Math.min(h, p.y));
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(169, 192, 255, 0.7)';
+        ctx.fill();
+      }
+
+      // Link nearby particles
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const a = particles[i], b = particles[j];
+          const dx = a.x - b.x, dy = a.y - b.y;
+          const d = Math.hypot(dx, dy);
+          if (d < LINK_DIST) {
+            const alpha = (1 - d / LINK_DIST) * 0.32;
+            ctx.strokeStyle = `rgba(91, 140, 255, ${alpha})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      rafId = requestAnimationFrame(step);
+    }
+
+    function start() {
+      if (running) return;
+      running = true;
+      step();
+    }
+    function stop() {
+      running = false;
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = null;
+    }
+
+    hero.addEventListener('mousemove', (e) => {
+      const rect = hero.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+    });
+    hero.addEventListener('mouseleave', () => { mouse.x = mouse.y = -9999; });
+
+    window.addEventListener('resize', () => {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      resize();
+    }, { passive: true });
+
+    // Only animate while the hero is on screen
+    const vis = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => entry.isIntersecting ? start() : stop());
+    }, { threshold: 0 });
+    vis.observe(hero);
+
+    resize();
+    canvas.classList.add('ready');
+    start();
+  })();
+
+  /* === TYPEWRITER ROTATING ROLES === */
+  (function typewriter() {
+    const el = document.getElementById('heroTyped');
+    if (!el) return;
+    const roles = (el.getAttribute('data-roles') || el.textContent).split('|').map(s => s.trim()).filter(Boolean);
+    if (reduceMotion || roles.length < 2) { el.textContent = roles[0] || el.textContent; return; }
+
+    let roleIdx = 0, charIdx = roles[0].length, deleting = false;
+    el.textContent = roles[0];
+
+    function tick() {
+      const current = roles[roleIdx];
+      if (!deleting) {
+        charIdx++;
+        el.textContent = current.slice(0, charIdx);
+        if (charIdx >= current.length) {
+          deleting = true;
+          return setTimeout(tick, 1600);
+        }
+        return setTimeout(tick, 70);
+      } else {
+        charIdx--;
+        el.textContent = current.slice(0, charIdx);
+        if (charIdx <= 0) {
+          deleting = false;
+          roleIdx = (roleIdx + 1) % roles.length;
+          return setTimeout(tick, 300);
+        }
+        return setTimeout(tick, 35);
+      }
+    }
+    // Begin after the hero reveal settles
+    setTimeout(() => { deleting = true; tick(); }, 2600);
+  })();
+
+  /* === STAGGERED GRID REVEALS === */
+  (function staggerReveals() {
+    const grids = document.querySelectorAll('.about-highlights, .about-stats, .services-grid, .projects-grid, .certs-grid, .soft-grid');
+    if (!grids.length) return;
+    grids.forEach(g => g.classList.add('reveal-stagger'));
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    grids.forEach(g => obs.observe(g));
+  })();
 
   console.log('%cThoraj Mamidala Portfolio', 'color: #ffffff; font-size: 1.2rem; font-weight: bold;');
   console.log('%cData Engineer · Builder · Problem Solver', 'color: #808080;');

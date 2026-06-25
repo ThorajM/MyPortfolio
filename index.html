@@ -68,10 +68,10 @@
 
       <ul class="nav-links" id="navLinks">
         <li><a href="#about" class="nav-link" data-label="About">About</a></li>
+        <li><a href="#services" class="nav-link" data-label="Services">Services</a></li>
         <li><a href="#experience" class="nav-link" data-label="Experience">Experience</a></li>
         <li><a href="#projects" class="nav-link" data-label="Projects">Projects</a></li>
         <li><a href="#skills" class="nav-link" data-label="Skills">Skills</a></li>
-        <li><a href="#education" class="nav-link" data-label="Education">Education</a></li>
         <li><a href="#certifications" class="nav-link" data-label="Certs">Certifications</a></li>
         <li><a href="#contact" class="nav-link nav-contact-btn" data-label="Contact">Contact</a></li>
       </ul>
@@ -86,10 +86,10 @@
   <div class="mobile-menu" id="mobileMenu">
     <ul>
       <li><a href="#about" class="mobile-link">About</a></li>
+      <li><a href="#services" class="mobile-link">Services</a></li>
       <li><a href="#experience" class="mobile-link">Experience</a></li>
       <li><a href="#projects" class="mobile-link">Projects</a></li>
       <li><a href="#skills" class="mobile-link">Skills</a></li>
-      <li><a href="#education" class="mobile-link">Education</a></li>
       <li><a href="#certifications" class="mobile-link">Certifications</a></li>
       <li><a href="#contact" class="mobile-link">Contact</a></li>
     </ul>
@@ -97,80 +97,100 @@
 
   <!-- Hero Section -->
   <section class="hero" id="home">
-    <div class="hero-bg">
-      <div class="hero-grid"></div>
-      <div class="hero-glow"></div>
+    <div class="hero-bg" aria-hidden="true">
+      <span class="hero-stage-grid"></span>
+      <span class="hero-stage-glow hero-stage-glow--1"></span>
+      <span class="hero-stage-glow hero-stage-glow--2"></span>
+      <span class="hero-stage-noise"></span>
     </div>
 
     <div class="hero-content">
-      <div class="hero-badge reveal-up">
-        <span class="badge-dot"></span>
-        Available for opportunities
+      <div class="hero-top reveal-up">
+        <span class="hero-eyebrow">/ Data Engineer — Siemens Healthineers</span>
+        <span class="hero-available"><span class="badge-dot"></span> Available for opportunities</span>
       </div>
 
       <h1 class="hero-name reveal-up">
-        <span class="name-line">Mamidala</span>
-        <span class="name-line name-accent">Thoraj</span>
+        <span class="name-line">Thoraj</span>
+        <span class="name-line name-accent">Mamidala</span>
       </h1>
 
-      <div class="hero-title-row reveal-up">
-        <p class="hero-role">Data Engineer Intern</p>
-        <span class="hero-divider">@</span>
-        <p class="hero-company">Siemens Healthineers</p>
-      </div>
-
-      <p class="hero-desc reveal-up">
-        Building scalable data pipelines, ETL workflows, and intelligent AI systems.
-        Turning complex data challenges into production-ready solutions.
+      <p class="hero-role-line reveal-up">
+        <span class="role-tag">Data Engineer</span>
+        <span class="role-sep"></span>
+        <span class="role-text">AI &amp; Pipeline Builder</span>
       </p>
 
-      <div class="hero-actions reveal-up">
-        <a href="#contact" class="btn-primary">
-          <span>Get in Touch</span>
-          <i class="fas fa-arrow-right"></i>
-        </a>
-        <a href="resume.pdf" class="btn-secondary" download>
-          <i class="fas fa-download"></i>
-          <span>Resume</span>
-        </a>
+      <p class="hero-desc reveal-up">
+        I build scalable data pipelines, cloud warehouses, and intelligent AI systems —
+        turning raw, messy data into decisions teams rely on.
+      </p>
+
+      <div class="hero-cta-row reveal-up">
+        <div class="hero-actions">
+          <a href="#contact" class="btn-primary">
+            <span>Get in touch</span>
+            <i class="fas fa-arrow-right"></i>
+          </a>
+          <a href="resume.pdf" class="btn-secondary" download>
+            <i class="fas fa-download"></i>
+            <span>Resume</span>
+          </a>
+        </div>
+
+        <div class="hero-socials">
+          <a href="https://github.com/ThorajM" target="_blank" rel="noopener" aria-label="GitHub">
+            <i class="fab fa-github"></i>
+          </a>
+          <a href="https://linkedin.com/in/thorajmamidala/" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <i class="fab fa-linkedin"></i>
+          </a>
+          <a href="https://twitter.com/ThorajM" target="_blank" rel="noopener" aria-label="Twitter">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="mailto:thoraj2004@gmail.com" aria-label="Email">
+            <i class="fas fa-envelope"></i>
+          </a>
+        </div>
       </div>
 
-      <div class="hero-socials reveal-up">
-        <a href="https://github.com/ThorajM" target="_blank" rel="noopener" aria-label="GitHub">
-          <i class="fab fa-github"></i>
-        </a>
-        <a href="https://linkedin.com/in/thorajmamidala/" target="_blank" rel="noopener" aria-label="LinkedIn">
-          <i class="fab fa-linkedin"></i>
-        </a>
-        <a href="https://twitter.com/ThorajM" target="_blank" rel="noopener" aria-label="Twitter">
-          <i class="fab fa-twitter"></i>
-        </a>
-        <a href="https://wa.me/919032200473" target="_blank" rel="noopener" aria-label="WhatsApp">
-          <i class="fab fa-whatsapp"></i>
-        </a>
-        <a href="mailto:thoraj2004@gmail.com" aria-label="Email">
-          <i class="fas fa-envelope"></i>
-        </a>
+      <div class="hero-metrics reveal-up">
+        <div class="hstat">
+          <span class="hstat-num">2+</span>
+          <span class="hstat-label">Years building<br>data systems</span>
+        </div>
+        <div class="hstat">
+          <span class="hstat-num">10+</span>
+          <span class="hstat-label">Production<br>pipelines</span>
+        </div>
+        <div class="hstat">
+          <span class="hstat-num">15+</span>
+          <span class="hstat-label">Projects<br>shipped</span>
+        </div>
+        <div class="hstat">
+          <span class="hstat-num">6</span>
+          <span class="hstat-label">Cloud<br>certifications</span>
+        </div>
       </div>
     </div>
 
-<div class="hero-profile reveal-right">
-  <div class="profile-backdrop"></div>
-  <div class="profile-ring">
-    <div class="profile-ring-inner">
-      <img src="./th.png" alt="Thoraj Mamidala" class="profile-img" />
+    <div class="hero-profile reveal-right">
+      <div class="profile-deco" aria-hidden="true">
+        <span class="deco-dots"></span>
+        <span class="deco-ring"></span>
+        <span class="deco-blob"></span>
+      </div>
+      <div class="profile-frame">
+        <div class="profile-frame-inner">
+          <img src="./th.png" alt="Thoraj Mamidala" class="profile-img" />
+          <span class="profile-scan" aria-hidden="true"></span>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="fx-orbit" aria-hidden="true">
-    <span class="fx-chip c1"><i class="fas fa-database"></i> Data Engineer</span>
-    <span class="fx-chip c2"><i class="fas fa-brain"></i> AI / RAG</span>
-    <span class="fx-chip c3"><i class="fas fa-bolt"></i> ETL Pipelines</span>
-  </div>
-</div>
 
     <a href="#about" class="hero-scroll" aria-label="Scroll down">
+      <span class="scroll-label">Who's curious? Scroll</span>
       <span class="scroll-line"></span>
-      <span class="scroll-label">Scroll</span>
     </a>
   </section>
 
@@ -186,24 +206,23 @@
   <section class="section about-section" id="about">
     <div class="container">
       <div class="section-label reveal-up">01 — About</div>
-      <h2 class="section-heading reveal-up">Who I Am</h2>
+      <h2 class="section-heading reveal-up" data-split>Who I Am</h2>
 
       <div class="about-grid">
         <div class="about-text reveal-up">
           <p class="about-lead">
-            Data Engineer Intern at <strong>Siemens Healthineers</strong> with a passion for building 
-            systems that make data work harder.
+            I'm a <strong>Data Engineer</strong> at <strong>Siemens Healthineers</strong>, building the
+            pipelines and platforms that turn raw, messy data into reliable, production-grade systems.
           </p>
           <p>
-            I specialize in designing and optimizing data pipelines using <strong>C#</strong>, <strong>.NET</strong>, 
-            <strong>Snowflake</strong>, and <strong>SQL Server</strong>. My work spans ETL workflows, 
-            cloud data warehousing, and query performance optimization for enterprise-scale applications.
+            My focus is designing and optimizing data pipelines with <strong>C#</strong>, <strong>.NET</strong>,
+            <strong>Snowflake</strong>, and <strong>SQL Server</strong> — spanning ETL workflows, cloud data
+            warehousing, and query performance tuning for enterprise-scale healthcare applications.
           </p>
           <p>
-            Beyond data engineering, I've built intelligent systems including a <strong>RAG-based chatbot</strong> 
-            using LLMs and vector databases, and <strong>automation frameworks with Playwright</strong> 
-            that streamline complex workflows. I'm passionate about combining data engineering, 
-            AI, and backend development to solve real-world problems at scale.
+            I also engineer intelligent systems: a <strong>RAG-based assistant</strong> on LLMs and vector
+            databases, and <strong>automation frameworks with Playwright</strong> that remove manual toil. I love
+            sitting where data engineering, AI, and backend development meet — and shipping things that scale.
           </p>
           <div class="about-highlights">
             <div class="highlight-item">
@@ -227,20 +246,88 @@
 
         <div class="about-stats reveal-right">
           <div class="stat-card">
-            <div class="stat-num" data-target="9.01" data-decimal="2">0</div>
-            <div class="stat-name">CGPA at VIT-AP</div>
+            <div class="stat-num" data-target="10" data-decimal="0">0</div>
+            <div class="stat-name">Data Pipelines Built</div>
           </div>
           <div class="stat-card">
             <div class="stat-num" data-target="15" data-decimal="0">0</div>
-            <div class="stat-name">Projects Completed</div>
+            <div class="stat-name">Projects Shipped</div>
           </div>
           <div class="stat-card">
             <div class="stat-num" data-target="6" data-decimal="0">0</div>
             <div class="stat-name">Certifications</div>
           </div>
           <div class="stat-card">
-            <div class="stat-num" data-target="1" data-decimal="0">0</div>
-            <div class="stat-name">Hackathon Won</div>
+            <div class="stat-num" data-target="12" data-decimal="0">0</div>
+            <div class="stat-name">Technologies</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Statement Section -->
+  <section class="statement-section" id="statement">
+    <div class="statement-fx" aria-hidden="true">
+      <span class="statement-grid"></span>
+      <span class="statement-glow"></span>
+      <span class="statement-quote">&ldquo;</span>
+    </div>
+    <div class="container">
+      <p class="statement-eyebrow reveal-up">The work</p>
+      <h2 class="statement" data-split data-emphasis="scale, observable, production">I build data systems that are reliable at scale, observable by default, and ready for production.</h2>
+      <ul class="statement-pillars">
+        <li class="statement-pillar reveal-up"><span class="pillar-dot"></span> Reliable at scale</li>
+        <li class="statement-pillar reveal-up"><span class="pillar-dot"></span> Observable by default</li>
+        <li class="statement-pillar reveal-up"><span class="pillar-dot"></span> Production-ready</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section class="section services-section" id="services">
+    <div class="container">
+      <div class="section-label reveal-up">02 — Services</div>
+      <h2 class="section-heading reveal-up" data-split>Services & Capabilities</h2>
+
+      <div class="services-grid">
+        <div class="service-card reveal-up">
+          <div class="service-index">01</div>
+          <div class="service-icon"><i class="fas fa-diagram-project"></i></div>
+          <h3 class="service-title">Data Pipeline Engineering</h3>
+          <p class="service-desc">Designing and operating reliable ETL / ELT pipelines that move and transform data at scale — from ingestion to production warehouse.</p>
+          <div class="service-tags">
+            <span>ETL / ELT</span><span>Orchestration</span><span>Batch & Stream</span>
+          </div>
+        </div>
+
+        <div class="service-card reveal-up">
+          <div class="service-index">02</div>
+          <div class="service-icon"><i class="fas fa-warehouse"></i></div>
+          <h3 class="service-title">Cloud Data Warehousing</h3>
+          <p class="service-desc">Modeling and tuning cloud warehouses for fast, cost-efficient analytics — with performance-aware schemas and query optimization.</p>
+          <div class="service-tags">
+            <span>Snowflake</span><span>SQL Server</span><span>Modeling</span>
+          </div>
+        </div>
+
+        <div class="service-card reveal-up">
+          <div class="service-index">03</div>
+          <div class="service-icon"><i class="fas fa-robot"></i></div>
+          <h3 class="service-title">AI & RAG Systems</h3>
+          <p class="service-desc">Building intelligent assistants on LLMs and vector databases — retrieval pipelines that turn unstructured data into reliable answers.</p>
+          <div class="service-tags">
+            <span>LLMs</span><span>Vector DBs</span><span>RAG</span>
+          </div>
+        </div>
+
+        <div class="service-card reveal-up">
+          <div class="service-index">04</div>
+          <div class="service-icon"><i class="fas fa-gears"></i></div>
+          <h3 class="service-title">Backend & Automation</h3>
+          <p class="service-desc">Engineering backend services and automation frameworks that remove manual toil and keep data workflows running hands-free.</p>
+          <div class="service-tags">
+            <span>C# / .NET</span><span>APIs</span><span>Playwright</span>
           </div>
         </div>
       </div>
@@ -250,8 +337,8 @@
   <!-- Experience Section -->
   <section class="section experience-section" id="experience">
     <div class="container">
-      <div class="section-label reveal-up">02 — Experience</div>
-      <h2 class="section-heading reveal-up">Professional Journey</h2>
+      <div class="section-label reveal-up">03 — Experience</div>
+      <h2 class="section-heading reveal-up" data-split>Professional Journey</h2>
 
       <div class="timeline reveal-up">
         <div class="timeline-item active">
@@ -292,11 +379,44 @@
     </div>
   </section>
 
+  <!-- CTA Banner (after Experience) -->
+  <section class="cta-banner" aria-label="Call to action">
+    <div class="container">
+      <div class="cta-card reveal-up" data-tilt>
+        <div class="cta-card-fx" aria-hidden="true">
+          <span class="cta-card-grid"></span>
+          <span class="cta-card-glow"></span>
+        </div>
+        <div class="cta-card-grid-layout">
+          <div class="cta-card-lead">
+            <span class="cta-card-badge">
+              <span class="cta-card-badge-dot"></span> Available for new projects
+            </span>
+            <h2 class="cta-card-title" data-split>Let's build something that scales.</h2>
+          </div>
+          <div class="cta-card-aside">
+            <p class="cta-card-sub">
+              Got an idea, a role, or a problem worth solving? Let's turn it into something real.
+            </p>
+            <a href="#contact" class="cta-card-btn">
+              <span class="cta-card-btn-label">Start a conversation</span>
+              <span class="cta-card-btn-icon"><i class="fas fa-arrow-right"></i></span>
+            </a>
+            <a href="mailto:thoraj2004@gmail.com" class="cta-card-mail">
+              <i class="fas fa-envelope"></i>
+              <span>thoraj2004@gmail.com</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Projects Section -->
   <section class="section projects-section" id="projects">
     <div class="container">
-      <div class="section-label reveal-up">03 — Projects</div>
-      <h2 class="section-heading reveal-up">Featured Work</h2>
+      <div class="section-label reveal-up">04 — Projects</div>
+      <h2 class="section-heading reveal-up" data-split>Featured Work</h2>
 
       <div class="filter-bar reveal-up">
         <button class="filter-btn active" data-filter="all">All</button>
@@ -312,7 +432,7 @@
           <div class="pc-header">
             <div class="pc-icon"><i class="fas fa-question-circle"></i></div>
             <div class="pc-links">
-              <a href="https://your-quiz-app-demo.netlify.app" target="_blank" rel="noopener" title="Live Demo"><i class="fas fa-external-link-alt"></i></a>
+              <a href="https://github.com/ThorajM/quiz-application" target="_blank" rel="noopener" title="Live Demo"><i class="fas fa-external-link-alt"></i></a>
               <a href="https://github.com/ThorajM/quiz-application" target="_blank" rel="noopener" title="GitHub"><i class="fab fa-github"></i></a>
             </div>
           </div>
@@ -341,7 +461,7 @@
           <div class="pc-header">
             <div class="pc-icon pc-icon--amber"><i class="fas fa-fire-alt"></i></div>
             <div class="pc-links">
-              <a href="https://youtu.be/your-gas-detection-demo" target="_blank" rel="noopener" title="Demo Video"><i class="fas fa-play-circle"></i></a>
+              <a href="https://github.com/ThorajM/iot-gas-detection" target="_blank" rel="noopener" title="Demo Video"><i class="fas fa-play-circle"></i></a>
               <a href="https://github.com/ThorajM/iot-gas-detection" target="_blank" rel="noopener" title="GitHub"><i class="fab fa-github"></i></a>
             </div>
           </div>
@@ -370,7 +490,7 @@
           <div class="pc-header">
             <div class="pc-icon pc-icon--green"><i class="fas fa-seedling"></i></div>
             <div class="pc-links">
-              <a href="https://youtu.be/your-birds-demo" target="_blank" rel="noopener" title="Demo Video"><i class="fas fa-play-circle"></i></a>
+              <a href="https://github.com/ThorajM/arduino-birds-repellent" target="_blank" rel="noopener" title="Demo Video"><i class="fas fa-play-circle"></i></a>
               <a href="https://github.com/ThorajM/arduino-birds-repellent" target="_blank" rel="noopener" title="GitHub"><i class="fab fa-github"></i></a>
             </div>
           </div>
@@ -399,7 +519,7 @@
           <div class="pc-header">
             <div class="pc-icon pc-icon--purple"><i class="fas fa-globe"></i></div>
             <div class="pc-links">
-              <a href="https://your-final-landing.netlify.app" target="_blank" rel="noopener" title="Live Demo"><i class="fas fa-external-link-alt"></i></a>
+              <a href="https://github.com/ThorajM/final-landing-page" target="_blank" rel="noopener" title="Live Demo"><i class="fas fa-external-link-alt"></i></a>
               <a href="https://github.com/ThorajM/final-landing-page" target="_blank" rel="noopener" title="GitHub"><i class="fab fa-github"></i></a>
             </div>
           </div>
@@ -428,7 +548,7 @@
           <div class="pc-header">
             <div class="pc-icon pc-icon--blue"><i class="fas fa-tasks"></i></div>
             <div class="pc-links">
-              <a href="https://your-task-manager.netlify.app" target="_blank" rel="noopener" title="Live Demo"><i class="fas fa-external-link-alt"></i></a>
+              <a href="https://github.com/ThorajM/react-task-manager" target="_blank" rel="noopener" title="Live Demo"><i class="fas fa-external-link-alt"></i></a>
               <a href="https://github.com/ThorajM/react-task-manager" target="_blank" rel="noopener" title="GitHub"><i class="fab fa-github"></i></a>
             </div>
           </div>
@@ -457,7 +577,7 @@
           <div class="pc-header">
             <div class="pc-icon pc-icon--rose"><i class="fas fa-robot"></i></div>
             <div class="pc-links">
-              <a href="https://your-ml-model-demo.streamlit.app" target="_blank" rel="noopener" title="Model Demo"><i class="fas fa-chart-line"></i></a>
+              <a href="https://github.com/ThorajM/student-performance-ml" target="_blank" rel="noopener" title="Model Demo"><i class="fas fa-chart-line"></i></a>
               <a href="https://github.com/ThorajM/student-performance-ml" target="_blank" rel="noopener" title="GitHub"><i class="fab fa-github"></i></a>
             </div>
           </div>
@@ -488,8 +608,8 @@
   <!-- Skills Section -->
   <section class="section skills-section" id="skills">
     <div class="container">
-      <div class="section-label reveal-up">04 — Skills</div>
-      <h2 class="section-heading reveal-up">Technical Expertise</h2>
+      <div class="section-label reveal-up">05 — Skills</div>
+      <h2 class="section-heading reveal-up" data-split>Technical Expertise</h2>
 
       <div class="skills-layout">
         <div class="skills-bars reveal-up">
@@ -610,94 +730,11 @@
     </div>
   </section>
 
-  <!-- Education Section -->
-  <section class="section education-section" id="education">
-    <div class="container">
-      <div class="section-label reveal-up">05 — Education</div>
-      <h2 class="section-heading reveal-up">Academic Background</h2>
-
-      <div class="edu-list">
-        <!-- VIT-AP -->
-        <div class="edu-card edu-featured reveal-up">
-          <div class="edu-icon"><i class="fas fa-graduation-cap"></i></div>
-          <div class="edu-body">
-            <div class="edu-top">
-              <div>
-                <h3 class="edu-degree">B.Tech — Computer Science & Engineering</h3>
-                <p class="edu-institute">Vellore Institute Of Technology — Amaravathi</p>
-              </div>
-              <div class="edu-meta">
-                <span class="edu-date">Sep 2022 — Present</span>
-                <span class="edu-status status-current">Pursuing</span>
-              </div>
-            </div>
-            <div class="edu-score">CGPA: <strong>9.01 / 10.0</strong></div>
-            <p class="edu-desc">
-              Comprehensive Computer Science degree with specialization in data engineering, algorithms, and 
-              machine learning. Active participant in hackathons and technical events.
-            </p>
-            <div class="edu-courses">
-              <span>Data Structures & Algorithms</span>
-              <span>OOP</span>
-              <span>DBMS</span>
-              <span>Machine Learning</span>
-              <span>Web Technologies</span>
-              <span>Software Engineering</span>
-            </div>
-            <div class="edu-achievements">
-              <div class="edu-ach-item"><i class="fas fa-trophy"></i><span>Winner — FrameX-WebHack 2024, VITAP University</span></div>
-              <div class="edu-ach-item"><i class="fas fa-award"></i><span>Real Venture Certification — Wadhwani Foundation</span></div>
-              <div class="edu-ach-item"><i class="fas fa-star"></i><span>Consistent 9+ CGPA Academic Excellence</span></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Narayana -->
-        <div class="edu-card reveal-up">
-          <div class="edu-icon edu-icon--sm"><i class="fas fa-school"></i></div>
-          <div class="edu-body">
-            <div class="edu-top">
-              <div>
-                <h3 class="edu-degree">Higher Secondary — MPC Stream</h3>
-                <p class="edu-institute">Narayana Junior College — Nellore</p>
-              </div>
-              <div class="edu-meta">
-                <span class="edu-date">Jun 2020 — May 2022</span>
-                <span class="edu-status status-done">Completed</span>
-              </div>
-            </div>
-            <div class="edu-score">Percentage: <strong>94.50%</strong></div>
-            <p class="edu-desc">Specialized in Mathematics, Physics, and Chemistry with exceptional academic performance.</p>
-          </div>
-        </div>
-
-        <!-- Little Angels -->
-        <div class="edu-card reveal-up">
-          <div class="edu-icon edu-icon--sm"><i class="fas fa-book"></i></div>
-          <div class="edu-body">
-            <div class="edu-top">
-              <div>
-                <h3 class="edu-degree">Secondary Education — CBSE</h3>
-                <p class="edu-institute">Little Angels Public School — Gudur</p>
-              </div>
-              <div class="edu-meta">
-                <span class="edu-date">May 2019 — Jun 2020</span>
-                <span class="edu-status status-done">Completed</span>
-              </div>
-            </div>
-            <div class="edu-score">Score: <strong>441 / 500</strong></div>
-            <p class="edu-desc">Strong performance in Science and Mathematics forming the engineering foundation.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- Certifications Section -->
   <section class="section certs-section" id="certifications">
     <div class="container">
       <div class="section-label reveal-up">06 — Credentials</div>
-      <h2 class="section-heading reveal-up">Certifications & Awards</h2>
+      <h2 class="section-heading reveal-up" data-split>Certifications & Awards</h2>
 
       <div class="certs-grid">
 
@@ -824,9 +861,9 @@
 
   <!-- Contact Section -->
   <section class="section contact-section" id="contact">
-      <div class="container">
+    <div class="container">
       <div class="section-label reveal-up">07 — Contact</div>
-      <h2 class="section-heading reveal-up">Let's Connect</h2>
+      <h2 class="section-heading reveal-up" data-split>Let's Connect</h2>
       <p class="section-subheading reveal-up">
         Whether it's an opportunity, collaboration, or just a conversation about technology — I'd love to hear from you.
       </p>
